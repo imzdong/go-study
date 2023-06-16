@@ -1,0 +1,4 @@
+*.exe
+!rsrc.exe
+rsrc.syso
+lofile.txt
