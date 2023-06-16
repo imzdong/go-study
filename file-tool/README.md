@@ -1,0 +1,1 @@
+https://github.com/akavel/rsrc/releases
