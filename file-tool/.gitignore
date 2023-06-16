@@ -1,4 +1,4 @@
 *.exe
 !rsrc.exe
 rsrc.syso
-lofile.txt
+logfile.txt
