@@ -3,7 +3,8 @@ package main
 import "fmt"
 
 func main() {
-	day01DataVar()
+	//day01DataVar()
+	day01DataNum()
 }
 
 // 常量
@@ -42,4 +43,19 @@ func day01DataVar() {
 	// 局部变量建议
 	i := 8
 	fmt.Printf("短声明：%d\n", i)
+}
+
+
+func day01DataNum() {
+	a8 := int8(1)
+	fmt.Printf("int8:%b\n", a8)
+
+	a16 := int16(16)
+	fmt.Printf("int16:%d\n", a16)
+
+	a32 := int32(32)
+	fmt.Printf("int32:%d\n", a32)
+
+	a64 := int64(64)
+	fmt.Printf("int64:%d\n", a64)
 }
