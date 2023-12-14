@@ -92,4 +92,28 @@ func day01DataStr() {
 	c := rune('中')
 	fmt.Printf("char :%d\n", c)
 	fmt.Printf("char char :%T\n", c)
+
+	sr := `所见即所得
+			还支持换行
+			厉害了呀`
+	fmt.Printf("raw str:%s\n", sr)
+
+	z := "中国人"
+
+	for _, v := range z {
+		fmt.Printf("unicode:%x\n", v)
+	}
+	d := '中'
+	fmt.Printf("中unicode:%x\n", d)
+	fmt.Println("--------------------------")
+	for i := 0; i < len(z); i++ {
+		fmt.Printf("i:0x%x\n", z[i])
+	}
+	/**
+	utf-8编码原理
+	#1-byte characters have the following format: 0xxxxxxx  			: U+0000 -> U+007F
+	#2-byte characters have the following format: 110xxxxx 10xxxxxx		        : U+0080 -> U+07FF
+	#3-byte characters have the following format: 1110xxxx 10xxxxxx 10xxxxxx	  : U+0800 -> U+FFFF
+	#4-byte characters have the following format: 11110xxx 10xxxxxx 10xxxxxx 10xxxxxx : U+10000 -> U+10FFFF
+	*/
 }
