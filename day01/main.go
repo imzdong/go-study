@@ -8,7 +8,10 @@ import (
 func main() {
 	//day01DataVar()
 	//day01DataNum()
-	day01DataStr()
+	//day01DataStr()
+	//day01Array()
+	//day02Map()
+	day02Struct()
 }
 
 // 常量
@@ -116,4 +119,107 @@ func day01DataStr() {
 	#3-byte characters have the following format: 1110xxxx 10xxxxxx 10xxxxxx	  : U+0800 -> U+FFFF
 	#4-byte characters have the following format: 11110xxx 10xxxxxx 10xxxxxx 10xxxxxx : U+10000 -> U+10FFFF
 	*/
+
+	zh := "中国人"
+	//rune切片
+	zhr := []rune(zh)
+	fmt.Printf("str->rune:%x\n", zhr)
+	//字节切片
+	zhb := []byte(zh)
+	fmt.Printf("str->byte:%b\n", zhb)
+
+	zr := string(zhr)
+	fmt.Printf("rune->str:%s\n", zr)
+
+	zb := string(zhb)
+	fmt.Printf("byte->str:%s\n", zb)
+}
+
+func foo(arr [5]int) {
+
+}
+func day01Array() {
+	var arr1 [3]int
+	//foo(arr1) error
+	fmt.Println(arr1)
+	var arr2 [5]int
+	foo(arr2)
+	var arr3 [5]string
+	fmt.Println(arr3)
+	//foo(arr3) error
+	//var arr [N]T
+
+	arr4 := [4]string{"z", "3"}
+	fmt.Println(arr4)
+
+	arr5 := [...]string{}
+	fmt.Println(len(arr5))
+
+	arr6 := [...]string{
+		6: "dong",
+	}
+	fmt.Println(arr6)
+
+	a0 := [3]string{"1", "2", "dong"}
+	fmt.Printf("a0 t:%T\n", a0)
+
+	a := []string{"1", "2", "dong"}
+	fmt.Printf("a t:%T\n", a)
+	for _, v := range a {
+		fmt.Println(v)
+	}
+	//fmt.Println(a[2])
+
+	//make 构建切片 10底层数组长度
+	mq := make([]string, 5, 10)
+	fmt.Println(len(mq))
+
+	//采用array[low : high : max]语法基于一个已存在的数组创建切片。这种方式被称为数组的切片化
+	arr7 := [10]int{1, 2, 3, 4, 5, 6, 7, 8}
+	fmt.Println(arr7)
+
+	arr8 := arr7[1:3:6]
+	//len=3-1 cap=6-1
+	fmt.Println(arr8)
+
+}
+
+func day02Map() {
+	//函数类型、map类型自身，以及切片类型是不能作为map的key类型的。
+	//map[keyType]valueType
+	m := map[int]string{1: "dong"}
+	fmt.Println(m)
+	fmt.Println(m[1])
+	v, ok := m[0]
+	if ok {
+		fmt.Println(v)
+	} else {
+		fmt.Println("不存在")
+	}
+
+	m1 := make(map[int]string, 6)
+	fmt.Println(m1)
+	fmt.Println(len(m1))
+
+	s := make([]int, 3)
+	fmt.Println(s)
+	fmt.Printf("%T", s)
+
+	//make方法可以创建 切片，map，chan，主要是引用类型
+	//struct，基本类型，string都是用字面值声明
+}
+
+func day02Struct() {
+	type person struct {
+		age  int
+		name string
+	}
+
+	p := person{
+		age:  18,
+		name: "dong",
+	}
+	fmt.Println(p)
+	fmt.Println(p.age)
+	fmt.Println(p.name)
 }
