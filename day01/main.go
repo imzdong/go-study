@@ -3,9 +3,61 @@ package main
 import (
 	"fmt"
 	"github.com/imzdong/day01/bdata"
+	"sync"
+	"time"
 )
 
+func produce(c chan<- int) {
+	for i := 0; i < 10; i++ {
+		fmt.Println("p c<-")
+		c <- i
+		time.Sleep(time.Second)
+	}
+	close(c)
+}
+func consume(c <-chan int) {
+	for v := range c {
+		fmt.Println("v <-c")
+		fmt.Println(v)
+	}
+}
+
 func main() {
+	ch := make(chan int, 5)
+	var wg sync.WaitGroup
+	wg.Add(2)
+	go func() {
+		fmt.Println("produce start")
+		produce(ch)
+		fmt.Println("ppp")
+		wg.Done()
+		fmt.Println("p down")
+	}()
+	go func() {
+		fmt.Println("consum start")
+		consume(ch)
+		fmt.Println("ccc")
+		wg.Done()
+		fmt.Println("c down")
+	}()
+	fmt.Println("main wait")
+	wg.Wait()
+	fmt.Println("main end")
+}
+
+func ch() {
+	ch1 := make(chan int)
+	go func() {
+		fmt.Println("start sub")
+		ch1 <- 13
+		fmt.Println("end sub")
+	}()
+	fmt.Println("main start revice")
+	n := <-ch1
+	fmt.Println(n)
+}
+
+func study() {
 	var bd bdata.Bdata
 	fmt.Println(bd.Name)
 	bd.Name = "winter"
