@@ -72,6 +72,7 @@ func (p *Pool) newWorker(idx int) {
 				fmt.Printf("worker[%03d]:recover panic[%s] and exist\n", idx, err)
 				<-p.active
 			}
+			p.wg.Done()
 		}()
 
 		fmt.Printf("worker[%03d]:start\n", idx)
@@ -79,7 +80,7 @@ func (p *Pool) newWorker(idx int) {
 		for {
 			select {
 			case <-p.quit:
-				fmt.Printf("worker[%03d] exit.", idx)
+				fmt.Printf("worker[%03d] exit.\n", idx)
 				<-p.active
 				return
 			case t := <-p.tasks:
@@ -89,4 +90,10 @@ func (p *Pool) newWorker(idx int) {
 
 		}
 	}()
+}
+
+func (p *Pool) Free() {
+	close(p.quit)
+	p.wg.Wait()
+	fmt.Println("end")
 }
