@@ -42,7 +42,6 @@ func (p *Pool) run() {
 		select {
 		case <-p.quit:
 			fmt.Println("quit")
-			<-p.active
 			return
 		case p.active <- struct{}{}:
 			idx++
@@ -66,15 +65,17 @@ func (p *Pool) newWorker(idx int) {
 		}()
 
 		fmt.Printf("worker:[%03d] start\n", idx)
-		select {
-		case <-p.quit:
-			fmt.Printf("worker:[%03d] start exit\n", idx)
-			<-p.active
-			return
-		case t := <-p.tasks:
-			fmt.Printf("worker:[%03d] start working\n", idx)
-			t()
-			fmt.Printf("worker:[%03d] start work end\n", idx)
+		for{
+			select {
+			case <-p.quit:
+				fmt.Printf("worker:[%03d] exit\n", idx)
+				<-p.active
+				return
+				case t := <-p.tasks:
+					fmt.Printf("worker:[%03d] revice a task.\n", idx)
+					t()
+					fmt.Printf("worker:[%03d] start work end\n", idx)
+			}
 		}
 	}()
 
@@ -82,17 +83,20 @@ func (p *Pool) newWorker(idx int) {
 
 var exitError error = errors.New("pool exit")
 
-func (p *Pool) Schedule(t Task) error {
+func (p *Pool) Schedule(t Task, i int) error {
 	select {
 	case <-p.quit:
 		return exitError
 	case p.tasks <- t:
+		fmt.Printf("add task:%d\n", i)
 		return nil
 	}
 }
 
 func (p *Pool) Free() {
+	fmt.Printf("workerpool freed start\n")
 	close(p.quit) // make sure all worker and p.run exit and schedule return error
+	fmt.Printf("workerpool freed waitting\n")
 	p.wg.Wait()
-	fmt.Printf("workerpool freed\n")
+	fmt.Printf("workerpool freed end\n")
 }

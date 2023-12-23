@@ -15,13 +15,13 @@ func pool1() {
 	
 	p := pool.New(5)
 	fmt.Println("6666")
-	time.Sleep(5*time.Second)
+	time.Sleep(2*time.Second)
 	
 	for i := 0; i < 10; i++ {
 		err := p.Schedule(func() {
-			time.Sleep(time.Second * 3)
-			fmt.Printf("i'm task%d\n", i)
-		})
+			time.Sleep(time.Second * 2)
+			fmt.Printf("i'm task\n")
+		}, i)
 		if err != nil {
 			fmt.Println(err)
 		}

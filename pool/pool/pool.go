@@ -73,6 +73,7 @@ func (p *Pool) newWorker(idx int) {
 				<-p.active
 			}
 			p.wg.Done()
+			fmt.Printf("worker[%03d] done.\n", idx)
 		}()
 
 		fmt.Printf("worker[%03d]:start\n", idx)
